@@ -7,7 +7,7 @@ int main(){
     
     cout<<(n >= 0? "positive" : "negetive") <<"\n";
     
-
+//mostly used for simple conditioning (usually tougher to read)
     
     return 0;
 }
