@@ -8,8 +8,13 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
+<<<<<<< HEAD
       "cwd": "c:/COLLAGE/coding-PROJECTS/C++",
       "program": "c:/COLLAGE/coding-PROJECTS/C++/build/Debug/outDebug",
+=======
+      "cwd": "c:/vs codes/C++",
+      "program": "c:/vs codes/C++/build/Debug/outDebug",
+>>>>>>> C++
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
