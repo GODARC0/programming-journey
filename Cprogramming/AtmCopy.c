@@ -1,11 +1,19 @@
 #include <stdio.h>
+#include <string.h>
 
 
 int main(void){
     //this is just a psudo code
 
     // promting -> insert card details (6 digit int number)
+    int user;
+    printf("Enter card details(last 6 digits):");
+
+    scanf("%d",&user);
+
     // promt -> select language (hindi , english)
+
+    
     // promt -> a; manage debit card (will work on already existing database) b; enter atm pin c;set/generate ATM pin (can do random number generator)
     // after selecting enter atm pin 
     // promt -> enter atm pin;
@@ -26,5 +34,5 @@ int main(void){
     // prompt -> please wait while your transaction is being processed 
     // after 1 min 
     // prompt  -> please collect your cash 
-    return 0;
+    return 0;   
 }
