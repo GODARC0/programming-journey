@@ -3,17 +3,22 @@
 
 
 int main(void){
-    //this is just a psudo code
-
+    //defining variables
+    int user = 0;
+    char choice1;
     // promting -> insert card details (6 digit int number)
-    int user;
-    printf("Enter card details(last 6 digits):");
-
-    scanf("%d",&user);
-
+    do{
+        printf("Enter card details(last 6 digits):");
+        scanf("%d",&user);
+    }
+    while (user>999999 || user<99999);
     // promt -> select language (hindi , english)
 
-    
+    printf("Select a language \n");
+    printf("a: HINDI         b: ENGLISH ,\n");
+
+    scanf(" %c",&choice1);
+
     // promt -> a; manage debit card (will work on already existing database) b; enter atm pin c;set/generate ATM pin (can do random number generator)
     // after selecting enter atm pin 
     // promt -> enter atm pin;
