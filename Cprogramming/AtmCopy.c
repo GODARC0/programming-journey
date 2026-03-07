@@ -6,6 +6,7 @@ int main(void){
     //defining variables
     int user = 0;
     char choice1;
+    char choice2;
     // promting -> insert card details (6 digit int number)
     do{
         printf("Enter card details(last 6 digits):");
@@ -20,6 +21,10 @@ int main(void){
     scanf(" %c",&choice1);
 
     // promt -> a; manage debit card (will work on already existing database) b; enter atm pin c;set/generate ATM pin (can do random number generator)
+    printf("  a: manage debit card  \n  b: enter atm pin \n  c: set/generate ATM pin \n");
+    scanf(" %c", &choice2);
+
+    
     // after selecting enter atm pin 
     // promt -> enter atm pin;
     // after entering correct pin 
