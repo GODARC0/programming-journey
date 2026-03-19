@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-
+#include <unistd.h>
 
 int main(void){
     //defining variables
@@ -44,17 +44,20 @@ int main(void){
         printf("c: fund transfer        d: withdrawal\n");
         printf("e: Mobile banking       f: balance enquiry\n");
         printf("g: exit\n");
-        scanf("%c",&choice3);
+        scanf(" %c",&choice3);
         // promt -> select account type
         printf("Select account type :\n");
+
         printf(" a; savings  \n b; current  \n c; credit card \n");
-        scanf("%c",&choice4);
+        scanf(" %c",&choice4);
          // promt -> enter amount (in the multiple of 100)
         if(choice4 == 'a' || choice4 == 'b' || choice4 == 'c' ){
             do {
                 printf("Enter amount : \n (* PLEASE ENTER IN MULTIPLE OF 100s):\n");
                 // allow upto 5 digit in amount in int format
                 scanf("%d",&cash);
+                // allow upto 5 digit in amount in int format
+                // enter
                 if (cash <= 0 || cash > 99999 || cash % 100 != 0) {
                     printf("Invalid amount! \n");
                 }
@@ -62,15 +65,13 @@ int main(void){
 
     };
 }
-    
 
-
-   
-    // allow upto 5 digit in amount in int format
-    // enter
 
     // prompt -> please wait while your transaction is being processed 
+    printf("please wait while your transaction is being processed\n");
     // after 1 min 
+    sleep(30);
     // prompt  -> please collect your cash 
+    printf("please collect your cash\n");
     return 0;   
 }
