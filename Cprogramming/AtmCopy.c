@@ -8,7 +8,9 @@ int main(void){
     char choice1;
     char choice2;
     char choice3;
+    char choice4;
     int pin = 0;
+    int cash = 0;
     // promting -> insert card details (6 digit int number)
     do{
         printf("Enter card details(last 6 digits):");
@@ -42,15 +44,28 @@ int main(void){
         printf("c: fund transfer        d: withdrawal\n");
         printf("e: Mobile banking       f: balance enquiry\n");
         printf("g: exit\n");
-        scanf("%char",&choice3);
+        scanf("%c",&choice3);
         // promt -> select account type
         printf("Select account type :\n");
-        printf(" a; savings  \n b; current  \n c; credit card");
-    }
-    
+        printf(" a; savings  \n b; current  \n c; credit card \n");
+        scanf("%c",&choice4);
+         // promt -> enter amount (in the multiple of 100)
+        if(choice4 == 'a' || choice4 == 'b' || choice4 == 'c' ){
+            do {
+                printf("Enter amount : \n (* PLEASE ENTER IN MULTIPLE OF 100s):\n");
+                // allow upto 5 digit in amount in int format
+                scanf("%d",&cash);
+                if (cash <= 0 || cash > 99999 || cash % 100 != 0) {
+                    printf("Invalid amount! \n");
+                }
+            } while (cash <= 0 || cash > 99999 || cash % 100 != 0);
+
+    };
+}
     
 
-    // promt -> enter amount (in the multiple of 100)
+
+   
     // allow upto 5 digit in amount in int format
     // enter
 
