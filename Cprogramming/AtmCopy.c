@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int main(void){
     //defining variables
@@ -9,6 +10,20 @@ int main(void){
     char choice2;
     char choice3;
     char choice4;
+    char choice5;
+    char choice6;
+    char choice7;
+    char choice8;
+    char choice9;
+    char choice10;
+    char choice11;
+    int  managepin =0;
+    int  atmlimit = 0;
+    int  POSlimit = 0;
+    int  COMMlimit =0;
+    int  ATMpin = 0;
+    int  POSpin = 0;
+    int  COMMpin = 0;
     int pin = 0;
     int cash = 0;
     // promting -> insert card details (6 digit int number)
@@ -37,17 +52,89 @@ int main(void){
 
     //after selecting manage debit card
     if(choice2 == 'a'){
+        printf("a: Manage channels \n b: Set card limits\n");
+        scanf(" %c",&choice5);
+        
         //manage channels
-            //enable or desable
-                //ATM  //POS(merchant machine) //E-COMM (ONLINE/WEB)  //CONTACTLESS(NFC Tap)
-            //ask for the pin 
+        if(choice5 == 'a'){
+            printf("Enable or disable channels:\n");
+            printf("a: ATM TRANSACTIONS\n");
+            printf("b: POS (merchant machine)\n");
+            printf("c: E-COMM (ONLINE/WEB)\n");
+            printf("d: CONTACTLESS (NFC Tap)\n");
+            scanf(" %c", &choice6);
+            if(choice6 == 'a'){
+                printf("ATM TRANSACTIONS\n");
+                printf("A) ENABLE B)DESABLE \n");
+                scanf(" %c",&choice7);
+            }
+            else if(choice6 == 'b'){
+                printf("POS (merchant machine)\n");
+                printf("A) ENABLE B)DESABLE \n");
+                scanf(" %c",&choice8);
+            }
+            else if(choice6 == 'c'){
+                printf("E-COMM (ONLINE/WEB)\n");
+                printf("A) ENABLE B)DESABLE \n");
+                scanf(" %c",&choice9);
+            }
+            else if(choice6 == 'd'){
+                printf("CONTACTLESS (NFC Tap)\n");
+                printf("A) ENABLE B)DESABLE \n");
+                scanf(" %c",&choice10);
+            }
+            //ask for the pin
+            printf("Please enter your ATM pin\n");
+            scanf(" %d",&managepin);
+            //compare with original pin
+            printf("please wait\n");
+            sleep(10); 
+            // if both pins are same then this
             //prompt ->  your request has been processed successfully
+            printf("your request has been processed successfully\n");
+            // if both pins are not same then prompt error
+            exit(0);
+        }
+            
         //set card limits
+        else if (choice5 == 'b'){
             //a) ATM  b)pos/ecom
-                //enter the desired limit
-                    //enter atm pin
+            printf("a: ATM \n b: POS  \n  c: E-COMM \n");
+            scanf(" %c",&choice11);
+            if(choice11 == 'a'){
+                printf("ATM Withdrawal\n");
+                printf("Enter the desired Limit\n");
+                scanf(" %d",&atmlimit);
+                printf("enter ATM pin\n");
+                scanf(" %d",&ATMpin);
+            }
+            else if(choice11 == 'b'){
+                printf("POS\n");
+                printf("Enter the desired Limit\n");
+                scanf(" %d",&POSlimit);
+                printf("enter ATM pin\n");
+                scanf(" %d",&POSpin);
+            }
+            else if(choice11 == 'c'){
+                printf("E-COMM\n");
+                printf("Enter the desired Limit\n");
+                scanf(" %d",&COMMlimit);
+                printf("enter ATM pin\n");
+                scanf(" %d",&COMMpin);
+                
+            }
+             //compare with original pin
+             printf("Please wait\n");
+            sleep(10); 
+            //if both pins are equal then this
+            //prompt ->  your request has been processed successfully
+            printf("your request has been processed successfully");
+            //if both pins are not same the show error
+            exit(0);   
+        }
+            
 
-        //your request has been processed successfully
+        
     }
     // after selecting enter atm pin
     else if(choice2 == 'b')
@@ -84,14 +171,15 @@ int main(void){
             } while (cash <= 0 || cash > 99999 || cash % 100 != 0);
 
     };
-}
-
-
     // prompt -> please wait while your transaction is being processed 
     printf("please wait while your transaction is being processed\n");
     // after 1 min 
     sleep(30);
     // prompt  -> please collect your cash 
     printf("please collect your cash\n");
+}
+
+
+    
     return 0;   
 }
