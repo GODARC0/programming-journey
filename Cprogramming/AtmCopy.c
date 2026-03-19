@@ -179,7 +179,11 @@ int main(void){
     printf("please collect your cash\n");
 }
 
-
+if(choice2 == 'c'){
+    printf("a: update ATM pin \n  b:  generate ATM pin")
+    // for option A pin will be updated in the database
+    //for option B we will use the random number generator to get a 4 digit number and save it to new card number
+}
     
     return 0;   
 }
