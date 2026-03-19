@@ -14,9 +14,16 @@ int main(void){
     // promting -> insert card details (6 digit int number)
     do{
         printf("Enter card details(last 6 digits):");
-        scanf("%d",&user);
+        // Check if scanf successfully read an integer
+        if(scanf("%d",&user) != 1) {
+            // Clear the input buffer by reading and discarding invalid characters
+            while(getchar() != '\n');
+            printf("Invalid input! Please enter card details\n");
+            user = 0; // Reset user to invalid value to continue loop
+            continue;
+        }
     }
-    while (user>999999 || user<99999);
+    while (user > 999999 || user < 100000);
     // promt -> select language (hindi , english)
 
     printf("Select a language \n");
@@ -28,9 +35,22 @@ int main(void){
     printf("  a: manage debit card  \n  b: enter atm pin \n  c: set/generate ATM pin \n");
     scanf(" %c", &choice2);
 
-    
+    //after selecting manage debit card
+    if(choice2 == 'a'){
+        //manage channels
+            //enable or desable
+                //ATM  //POS(merchant machine) //E-COMM (ONLINE/WEB)  //CONTACTLESS(NFC Tap)
+            //ask for the pin 
+            //prompt ->  your request has been processed successfully
+        //set card limits
+            //a) ATM  b)pos/ecom
+                //enter the desired limit
+                    //enter atm pin
+
+        //your request has been processed successfully
+    }
     // after selecting enter atm pin
-    if(choice2 == 'b')
+    else if(choice2 == 'b')
     // promt -> enter atm pin;
         {printf("Enter 4 digit pin :");
         scanf("%d",&pin);
