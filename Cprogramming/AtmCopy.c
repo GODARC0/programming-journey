@@ -7,6 +7,8 @@ int main(void){
     int user = 0;
     char choice1;
     char choice2;
+    char choice3;
+    int pin = 0;
     // promting -> insert card details (6 digit int number)
     do{
         printf("Enter card details(last 6 digits):");
@@ -25,17 +27,28 @@ int main(void){
     scanf(" %c", &choice2);
 
     
-    // after selecting enter atm pin 
+    // after selecting enter atm pin
+    if(choice2 == 'b')
     // promt -> enter atm pin;
+        {printf("Enter 4 digit pin :");
+        scanf("%d",&pin);
+        // printf("%d",pin);
     // after entering correct pin 
     // a; change pin      b; fast cash
     // c; fund transfer   d; withdrawal
     // e; Mobile banking  f; balance enquiry
     //              g; exit
-    // promt -> select account type
-    // a; savings 
-    // b; current 
-    // c; credit card
+        printf("a: change pin           b: fast cash\n");
+        printf("c: fund transfer        d: withdrawal\n");
+        printf("e: Mobile banking       f: balance enquiry\n");
+        printf("g: exit\n");
+        scanf("%char",&choice3);
+        // promt -> select account type
+        printf("Select account type :\n");
+        printf(" a; savings  \n b; current  \n c; credit card");
+    }
+    
+    
 
     // promt -> enter amount (in the multiple of 100)
     // allow upto 5 digit in amount in int format
