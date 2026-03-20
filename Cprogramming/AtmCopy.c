@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <time.h>
 
 int main(void){
     //defining variables
@@ -17,6 +18,11 @@ int main(void){
     char choice9;
     char choice10;
     char choice11;
+    char choice12;
+    int  checkpin = 0;
+    int  newPIN  = 0;
+    int  OTP  = 0 ;
+    int  mobile = 0;
     int  managepin =0;
     int  atmlimit = 0;
     int  POSlimit = 0;
@@ -26,6 +32,7 @@ int main(void){
     int  COMMpin = 0;
     int pin = 0;
     int cash = 0;
+    int GenOtp = 0 ;
     // promting -> insert card details (6 digit int number)
     do{
         printf("Enter card details(last 6 digits):");
@@ -180,9 +187,38 @@ int main(void){
 }
 
 if(choice2 == 'c'){
-    printf("a: update ATM pin \n  b:  generate ATM pin")
+    printf("a: update ATM pin \n  b:  generate ATM pin\n");
+    scanf(" %c",&choice12);
+
     // for option A pin will be updated in the database
+    if(choice12 == 'a'){
+        printf("enter current ATMpin\n");
+        scanf(" %d",&checkpin);
+
+        //check if pin=checkpin if true then go forward if wrong then end program
+
+        printf("Enter new ATM pin\n");
+        scanf(" %d",&newPIN);
+        //update this new pin in the place of old pin 
+        sleep(10);
+        printf("PIN updated successfully\n");
+    }
     //for option B we will use the random number generator to get a 4 digit number and save it to new card number
+    if(choice12 == 'b'){
+        printf("enter a valid mobile number\n");
+        scanf(" %d",&mobile);
+
+        printf("Enter OTP send to the mobile number\n");
+        scanf(" %d",&OTP);
+
+        //use random number generator to get a 4 digit pin and store it in the database
+        printf("Please Wait\n");
+        sleep(10);
+        srand(time(0));
+        int GenOtp = (rand() % 9000 + 1000);
+        printf("This is your new PIN \n");
+        printf(" %d" ,GenOtp);
+    }
 }
     
     return 0;   
