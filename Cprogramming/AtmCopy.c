@@ -16,6 +16,28 @@ int main(void){
     //adding database
     sqlite3 *db = NULL;
     char *err = NULL;
+    
+    //opening DataBase FIRST
+    if (sqlite3_open("atmdata.db", &db) != SQLITE_OK) {
+        fprintf(stderr, "DB open error: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        return 1;
+    }
+
+    //checking if table exist
+    const char *sql_create =
+    "CREATE TABLE IF NOT EXISTS users ("
+    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+    "card_number INTEGER UNIQUE NOT NULL,"
+    "pin TEXT NOT NULL,"
+    "balance INTEGER DEFAULT 0);";
+    if (sqlite3_exec(db, sql_create, NULL, NULL, &err) != SQLITE_OK) {
+        fprintf(stderr, "Create table error: %s\n", err);
+        sqlite3_free(err);
+        sqlite3_close(db);
+        return 1;
+    }
+    
     //defining variables
     int user = 0;
     char choice1;
@@ -96,33 +118,13 @@ int main(void){
         }
         sqlite3_finalize(stmt);
     }
+    
     // promt -> select language (hindi , english)
-
     printf("Select a language \n");
     printf("a: HINDI         b: ENGLISH ,\n");
     scanf(" %c",&choice1);
-    printf("आपने हिंदी चुना है");
+    // printf("आपने हिंदी चुना है");
 
-    //opening DataBase
-    if (sqlite3_open("atmdata.db", &db) != SQLITE_OK) {
-    fprintf(stderr, "DB open error: %s\n", sqlite3_errmsg(db));
-    sqlite3_close(db);
-    return 1;
-    }
-
-    //checking if table exist
-    const char *sql_create =
-    "CREATE TABLE IF NOT EXISTS users ("
-    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-    "card_number INTEGER UNIQUE NOT NULL,"
-    "pin TEXT NOT NULL,"
-    "balance INTEGER DEFAULT 0);";
-    if (sqlite3_exec(db, sql_create, NULL, NULL, &err) != SQLITE_OK) {
-        fprintf(stderr, "Create table error: %s\n", err);
-        sqlite3_free(err);
-        sqlite3_close(db);
-        return 1;
-    }
     // promt -> a; manage debit card (will work on already existing database) b; enter atm pin c;set/generate ATM pin (can do random number generator)
     printf("  a: manage debit card  \n  b: enter atm pin \n  c: set/generate ATM pin \n");
     scanf(" %c", &choice2);
