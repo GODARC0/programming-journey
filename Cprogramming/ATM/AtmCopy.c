@@ -314,7 +314,16 @@ int main(void){
             sleep(30);
             printf("please collect your cash\n");
             //update the balance after withdrawal in the database
-            
+            sqlite3_stmt *update_stmt;
+            sqlite3_prepare_v2(db, "UPDATE users SET balance = balance - ? WHERE card_number = ?;", -1, &update_stmt, NULL);
+            sqlite3_bind_int(update_stmt, 1, cash);
+            sqlite3_bind_int(update_stmt, 2, user);
+            if (sqlite3_step(update_stmt) != SQLITE_DONE) {
+                printf("Error updating balance.\n");
+            } else {
+                printf("Transaction successful. Amount debited: Rs. %d\n", cash);
+            }
+            sqlite3_finalize(update_stmt);
         }
         else if(choice3 == 'a'){
             //ask for card and current pin
