@@ -61,6 +61,9 @@ int main(void){
     int  POSlimit = 0;
     int  COMMlimit =0;
     int  LIMpin = 0;
+    int  checkcard = 0;
+    int  checkpinn = 0;
+    int  newpinn  = 0;
     int pinn = 0;
     int cash = 0;
     int GenOtp = 0 ;
@@ -313,9 +316,51 @@ int main(void){
         }
         else if(choice3 == 'a'){
             //ask for card and current pin
+            printf("Enter last 6 digit of your card");
+            scanf(" %d",&checkcard);
+            printf("Enter 4 DIGIT ATM pin");
+            scanf(" %d",&checkpinn);
+            // validate both details
+            sqlite3_prepare_v2(db,
+                "SELECT pin FROM users WHERE card_number = ?;",-1, &stmt, NULL);
+            sqlite3_bind_int(stmt, 1, checkcard);
             
-            //validate both details 
+            if (sqlite3_step(stmt) == SQLITE_ROW) {
+                const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
+                char entered_pin_str[10];
+                sprintf(entered_pin_str, "%d", checkpinn);
+                
+                if (strcmp(entered_pin_str, stored_pin) != 0) {
+                    printf("Card and PIN do not match.\n");
+                    sqlite3_finalize(stmt);
+                    // go back to menu or exit, your choice
+                    return 1;
+                }
+            } else {
+                printf("Card not found in database.\n");
+                sqlite3_finalize(stmt);
+                return 1;
+            }
+            sqlite3_finalize(stmt);
+            
+            printf("Card+PIN validated successfully.\n");
             //ask for new pin 
+            printf("Enter new ATM pin");
+            scanf(" %d",&newpinn);
+            //update this new pin in the place of old pin in database
+            sqlite3_stmt *update_stmt;
+            sqlite3_prepare_v2(db, "UPDATE users SET pin = ? WHERE card_number = ?;", -1, &update_stmt, NULL);
+            char new_pin_str[10];
+            sprintf(new_pin_str, "%d", newpinn);
+            sqlite3_bind_text(update_stmt, 1, new_pin_str, -1, SQLITE_STATIC);
+            sqlite3_bind_int(update_stmt, 2, checkcard);
+            if (sqlite3_step(update_stmt) != SQLITE_DONE) {
+                printf("Error updating PIN.\n");
+            } else {
+                printf("PIN updated successfully.\n");
+            }
+            sqlite3_finalize(update_stmt);
+
 
         }
         
