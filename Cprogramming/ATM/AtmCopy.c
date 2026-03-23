@@ -289,31 +289,36 @@ int main(void){
         printf("e: Mobile banking       f: balance enquiry\n");
         printf("g: exit\n");
         scanf(" %c",&choice3);
-        // promt -> select account type
-        printf("Select account type :\n");
+        
+        if (choice3 == 'b' || choice3 == 'd') {
+            // promt -> select account type
+            printf("Select account type :\n");
+        
+            printf(" a; savings  \n b; current  \n c; credit card \n");
+            scanf(" %c", &choice4);
+            // promt -> enter amount (in the multiple of 100)
+            if (choice4 == 'a' || choice4 == 'b' || choice4 == 'c') {
+                do {
+                    printf("Enter amount : \n (* PLEASE ENTER IN MULTIPLE OF 100s):\n");
+                    scanf("%d", &cash);
+                    if (cash <= 0 || cash > 99999 || cash % 100 != 0) {
+                        printf("Invalid amount! \n");
+                    }
+                } while (cash <= 0 || cash > 99999 || cash % 100 != 0);
+            }
+            // prompt -> please wait while your transaction is being processed 
+            printf("please wait while your transaction is being processed\n");
+            sleep(30);
+            printf("please collect your cash\n");
+        }
+        else if(choice3 == 'a'){
+            //ask for card and current pin
+            
+            //validate both details 
+            //ask for new pin 
 
-        printf(" a; savings  \n b; current  \n c; credit card \n");
-        scanf(" %c",&choice4);
-         // promt -> enter amount (in the multiple of 100)
-        if(choice4 == 'a' || choice4 == 'b' || choice4 == 'c' ){
-            do {
-                printf("Enter amount : \n (* PLEASE ENTER IN MULTIPLE OF 100s):\n");
-                // allow upto 5 digit in amount in int format
-                scanf("%d",&cash);
-                // allow upto 5 digit in amount in int format
-                // enter
-                if (cash <= 0 || cash > 99999 || cash % 100 != 0) {
-                    printf("Invalid amount! \n");
-                }
-            } while (cash <= 0 || cash > 99999 || cash % 100 != 0);
-
-    };
-    // prompt -> please wait while your transaction is being processed 
-    printf("please wait while your transaction is being processed\n");
-    // after 1 min 
-    sleep(30);
-    // prompt  -> please collect your cash 
-    printf("please collect your cash\n");
+        }
+        
 }
 
 if(choice2 == 'c'){
