@@ -313,6 +313,8 @@ int main(void){
             printf("please wait while your transaction is being processed\n");
             sleep(30);
             printf("please collect your cash\n");
+            //update the balance after withdrawal in the database
+            
         }
         else if(choice3 == 'a'){
             //ask for card and current pin
@@ -363,8 +365,23 @@ int main(void){
 
 
         }
-        
-}
+        else if( choice3 == 'c' || choice3 == 'e'){
+            printf("these features are coming soon");
+            exit(1);
+        }
+        else if(choice3 == 'f'){
+            //display the amount from the database user section
+            
+                sqlite3_prepare_v2(db, "SELECT balance FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+                sqlite3_bind_int(stmt, 1, user);
+                if (sqlite3_step(stmt) == SQLITE_ROW) {
+                    int balance = sqlite3_column_int(stmt, 0);
+                    printf("Your current balance is: Rs. %d\n", balance);
+                } 
+                sqlite3_finalize(stmt);
+            
+        }
+}           
 
 if(choice2 == 'c'){
     printf("a: update ATM pin \n  b:  generate ATM pin\n");
