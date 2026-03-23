@@ -60,9 +60,7 @@ int main(void){
     int  atmlimit = 0;
     int  POSlimit = 0;
     int  COMMlimit =0;
-    int  ATMpin = 0;
-    int  POSpin = 0;
-    int  COMMpin = 0;
+    int  LIMpin = 0;
     int pin = 0;
     int cash = 0;
     int GenOtp = 0 ;
@@ -205,31 +203,28 @@ int main(void){
                 printf("ATM Withdrawal\n");
                 printf("Enter the desired Limit\n");
                 scanf(" %d",&atmlimit);
-                printf("enter ATM pin\n");
-                scanf(" %d",&ATMpin);
             }
             else if(choice11 == 'b'){
                 printf("POS\n");
                 printf("Enter the desired Limit\n");
                 scanf(" %d",&POSlimit);
-                printf("enter ATM pin\n");
-                scanf(" %d",&POSpin);
+                
             }
             else if(choice11 == 'c'){
                 printf("E-COMM\n");
                 printf("Enter the desired Limit\n");
                 scanf(" %d",&COMMlimit);
-                printf("enter ATM pin\n");
-                scanf(" %d",&COMMpin);
                 
             }
+            printf("enter ATM pin\n");
+            scanf(" %d",&LIMpin);
             //compare with original pin
             sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
             sqlite3_bind_int(stmt, 1, user);
             if (sqlite3_step(stmt) == SQLITE_ROW) {
                 const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
                 char entered_pin_str[10];
-                sprintf(entered_pin_str, "%d", managepin);  // Convert int to string
+                sprintf(entered_pin_str, "%d", LIMpin);  // Convert int to string
 
                 if (strcmp(entered_pin_str, stored_pin) != 0) {
                     printf("Invalid PIN!\n");
