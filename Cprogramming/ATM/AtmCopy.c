@@ -166,12 +166,33 @@ int main(void){
             printf("Please enter your ATM pin\n");
             scanf(" %d",&managepin);
             //compare with original pin
+           // Validate PIN against database
+            sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+            sqlite3_bind_int(stmt, 1, user);  // user is the card number
+
+            if (sqlite3_step(stmt) == SQLITE_ROW) {
+                const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
+                char entered_pin_str[10];
+                sprintf(entered_pin_str, "%d", managepin);  // Convert int to string
+                
+                if (strcmp(entered_pin_str, stored_pin) != 0) {
+                    printf("Invalid PIN! \n");
+                    sqlite3_finalize(stmt);
+                    sqlite3_close(db);
+                    exit(1);
+                }
+            } else {
+                printf("Card not found in database.\n");
+                sqlite3_finalize(stmt);
+                sqlite3_close(db);
+                exit(1);
+            }
+            sqlite3_finalize(stmt);
+
+            // If PIN is correct, continue with the success message
             printf("please wait\n");
             sleep(10); 
-            // if both pins are same then this
-            //prompt ->  your request has been processed successfully
             printf("your request has been processed successfully\n");
-            // if both pins are not same then prompt error
             exit(0);
         }
             
@@ -202,14 +223,35 @@ int main(void){
                 scanf(" %d",&COMMpin);
                 
             }
-             //compare with original pin
-             printf("Please wait\n");
-            sleep(10); 
+            //compare with original pin
+            sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+            sqlite3_bind_int(stmt, 1, user);
+            if (sqlite3_step(stmt) == SQLITE_ROW) {
+                const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
+                char entered_pin_str[10];
+                sprintf(entered_pin_str, "%d", managepin);  // Convert int to string
+
+                if (strcmp(entered_pin_str, stored_pin) != 0) {
+                    printf("Invalid PIN!\n");
+                    sqlite3_finalize(stmt);
+                    sqlite3_close(db);
+                    return 1;
+                }
+            } else {
+                printf("Card not found in database.\n");
+                sqlite3_finalize(stmt);
+                sqlite3_close(db);
+                return 1;
+            }
+            sqlite3_finalize(stmt);
+
+            printf("Please wait\n");
+            sleep(10);
             //if both pins are equal then this
             //prompt ->  your request has been processed successfully
-            printf("your request has been processed successfully");
-            //if both pins are not same the show error
-            exit(0);   
+            printf("your request has been processed successfully\n");
+            // remove immediate exit to keep app context, or use menu loop
+             exit(0);
         }
             
 
