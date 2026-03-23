@@ -3,8 +3,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <time.h>
+#include <windows.h>
+#include <locale.h>
 
 int main(void){
+    // Enable UTF-8 output on Windows
+    SetConsoleCP(65001);
+    SetConsoleOutputCP(65001);
+    setlocale(LC_ALL, ".UTF-8");
     //defining variables
     int user = 0;
     char choice1;
@@ -50,8 +56,8 @@ int main(void){
 
     printf("Select a language \n");
     printf("a: HINDI         b: ENGLISH ,\n");
-
     scanf(" %c",&choice1);
+    printf("आपने हिंदी चुना है");
 
     // promt -> a; manage debit card (will work on already existing database) b; enter atm pin c;set/generate ATM pin (can do random number generator)
     printf("  a: manage debit card  \n  b: enter atm pin \n  c: set/generate ATM pin \n");
