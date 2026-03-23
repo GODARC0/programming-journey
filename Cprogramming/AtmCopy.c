@@ -57,6 +57,45 @@ int main(void){
         }
     }
     while (user > 999999 || user < 100000);
+    
+    // Check if card exists in database
+    sqlite3_stmt *stmt;
+    int card_exists = 0;
+    int user_id = 0;
+    
+    sqlite3_prepare_v2(db, "SELECT id FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, user);
+    
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        card_exists = 1;
+        user_id = sqlite3_column_int(stmt, 0);
+    }
+    sqlite3_finalize(stmt);
+    
+    // If card doesn't exist, reprompt
+    while (!card_exists) {
+        printf("Card not found in database. Please enter valid card details(last 6 digits):");
+        if(scanf(" %d",&user) != 1) {
+            while(getchar() != '\n');
+            printf("Invalid input! Please enter card details\n");
+            user = 0;
+            continue;
+        }
+        if (user > 999999 || user < 100000) {
+            printf("Card must be 6 digits. Please try again.\n");
+            continue;
+        }
+        
+        // Check database again
+        sqlite3_prepare_v2(db, "SELECT id FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+        sqlite3_bind_int(stmt, 1, user);
+        
+        if (sqlite3_step(stmt) == SQLITE_ROW) {
+            card_exists = 1;
+            user_id = sqlite3_column_int(stmt, 0);
+        }
+        sqlite3_finalize(stmt);
+    }
     // promt -> select language (hindi , english)
 
     printf("Select a language \n");
@@ -75,9 +114,9 @@ int main(void){
     const char *sql_create =
     "CREATE TABLE IF NOT EXISTS users ("
     "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-    "card_number INTEGER UNIQUE,"
-    "pin INTEGER,"
-    "balance INTEGER);";
+    "card_number INTEGER UNIQUE NOT NULL,"
+    "pin TEXT NOT NULL,"
+    "balance INTEGER DEFAULT 0);";
     if (sqlite3_exec(db, sql_create, NULL, NULL, &err) != SQLITE_OK) {
         fprintf(stderr, "Create table error: %s\n", err);
         sqlite3_free(err);
