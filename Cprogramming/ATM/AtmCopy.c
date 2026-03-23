@@ -375,7 +375,7 @@ int main(void){
 
         }
         else if( choice3 == 'c' || choice3 == 'e'){
-            printf("these features are coming soon");
+            printf("these features is coming soon");
             exit(1);
         }
         else if(choice3 == 'f'){
@@ -390,26 +390,16 @@ int main(void){
                 sqlite3_finalize(stmt);
             
         }
+        else if(choice3 == 'g'){
+            exit(1);
+        }
 }           
 
 if(choice2 == 'c'){
-    printf("a: update ATM pin \n  b:  generate ATM pin\n");
+    printf( "generate ATM pin\n");
     scanf(" %c",&choice12);
 
-    // for option A pin will be updated in the database
-    if(choice12 == 'a'){
-        printf("enter current ATMpin\n");
-        scanf(" %d",&checkpin);
-
-        //check if pin=checkpin if true then go forward if wrong then end program
-
-        printf("Enter new ATM pin\n");
-        scanf(" %d",&newPIN);
-        //update this new pin in the place of old pin 
-        sleep(10);
-        printf("PIN updated successfully\n");
-    }
-    //for option B we will use the random number generator to get a 4 digit number and save it to new card number
+    //for this we will use the random number generator to get a 4 digit number and save it to new card number
     if(choice12 == 'b'){
         printf("enter a valid mobile number\n");
         scanf(" %d",&mobile);
