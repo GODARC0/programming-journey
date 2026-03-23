@@ -61,7 +61,7 @@ int main(void){
     int  POSlimit = 0;
     int  COMMlimit =0;
     int  LIMpin = 0;
-    int pin = 0;
+    int pinn = 0;
     int cash = 0;
     int GenOtp = 0 ;
     // promting -> insert card details (6 digit int number)
@@ -256,8 +256,29 @@ int main(void){
     else if(choice2 == 'b')
     // promt -> enter atm pin;
         {printf("Enter 4 digit pin :");
-        scanf("%d",&pin);
-        // printf("%d",pin);
+        scanf("%d",&pinn);
+        // checking if the pin is correct
+        sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+            sqlite3_bind_int(stmt, 1, user);
+            if (sqlite3_step(stmt) == SQLITE_ROW) {
+                const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
+                char entered_pin_str[10];
+                sprintf(entered_pin_str, "%d", pinn);  // Convert int to string
+
+                if (strcmp(entered_pin_str, stored_pin) != 0) {
+                    printf("Invalid PIN!\n");
+                    sqlite3_finalize(stmt);
+                    sqlite3_close(db);
+                    return 1;
+                }
+            } else {
+                printf("Card not found in database.\n");
+                sqlite3_finalize(stmt);
+                sqlite3_close(db);
+                return 1;
+            }
+            sqlite3_finalize(stmt);
+
     // after entering correct pin 
     // a; change pin      b; fast cash
     // c; fund transfer   d; withdrawal
