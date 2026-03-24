@@ -241,7 +241,97 @@ int main(void){
     sqlite3_finalize(update_stmt);
     exit(0);
 }
-            
+    else if(choice5 == 'b'){
+    printf("a: ATM \n b: POS \n c: E-COMM \n");
+    scanf(" %c",&choice11);
+
+    int limit = 0;
+    const char *column = NULL;
+
+    if(choice11 == 'a'){
+        printf("ATM Withdrawal\n");
+        printf("Enter the desired Limit\n");
+        scanf(" %d",&limit);
+        column = "ATMlim";
+    }
+    else if(choice11 == 'b'){
+        printf("POS\n");
+        printf("Enter the desired Limit\n");
+        scanf(" %d",&limit);
+        column = "POSlim";
+    }
+    else if(choice11 == 'c'){
+        printf("E-COMM\n");
+        printf("Enter the desired Limit\n");
+        scanf(" %d",&limit);
+        column = "E_COMMlim";
+    }
+    else{
+        printf("Invalid choice!\n");
+        sqlite3_close(db);
+        exit(1);
+    }
+
+    // ask for pin
+    printf("Enter ATM pin\n");
+    scanf(" %d",&LIMpin);
+
+    // validate PIN against database
+    sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, user);
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
+        char entered_pin_str[10];
+        sprintf(entered_pin_str, "%d", LIMpin);
+
+        if (strcmp(entered_pin_str, stored_pin) != 0) {
+            printf("Invalid PIN!\n");
+            sqlite3_finalize(stmt);
+            sqlite3_close(db);
+            exit(1);
+        }
+    } else {
+        printf("Card not found in database.\n");
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        exit(1);
+    }
+    sqlite3_finalize(stmt);
+
+    // check if row exists for this card in limits table
+    sqlite3_prepare_v2(db, "SELECT card_number FROM limits WHERE card_number = ?;", -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, user);
+    int row_exists = (sqlite3_step(stmt) == SQLITE_ROW);
+    sqlite3_finalize(stmt);
+
+    // if no row exists, insert a default row first
+    if(!row_exists){
+        sqlite3_prepare_v2(db, "INSERT INTO limits (card_number) VALUES (?);", -1, &stmt, NULL);
+        sqlite3_bind_int(stmt, 1, user);
+        sqlite3_step(stmt);
+        sqlite3_finalize(stmt);
+    }
+
+    // update query dynamically
+    char update_sql[100];
+    sprintf(update_sql, "UPDATE limits SET %s = ? WHERE card_number = ?;", column);
+
+    sqlite3_stmt *update_stmt;
+    sqlite3_prepare_v2(db, update_sql, -1, &update_stmt, NULL);
+    sqlite3_bind_int(update_stmt, 1, limit);
+    sqlite3_bind_int(update_stmt, 2, user);
+
+    if(sqlite3_step(update_stmt) != SQLITE_DONE){
+        printf("Error updating limit.\n");
+    } else {
+        printf("Please wait\n");
+        sleep(10);
+        printf("Your request has been processed successfully\n");
+    }
+    sqlite3_finalize(update_stmt);
+    exit(0);
+}    
 
         
     }
@@ -299,6 +389,9 @@ int main(void){
                     }
                 } while (cash <= 0 || cash > 99999 || cash % 100 != 0);
             }
+            //check if the value  of cash is less then the balance in database or not 
+            //if balance>cash process
+            //if balance<cash print insufficient balance and exit the code
             // prompt -> please wait while your transaction is being processed 
             printf("please wait while your transaction is being processed\n");
             sleep(30);
