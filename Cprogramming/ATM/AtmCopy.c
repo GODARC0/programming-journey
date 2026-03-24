@@ -46,16 +46,13 @@ int main(void){
     char choice4;
     char choice5;
     char choice6;
-    char choice7;
-    char choice8;
-    char choice9;
-    char choice10;
+    
     char choice11;
     char choice12;
     int  checkpin = 0;
     int  newPIN  = 0;
     int  OTP  = 0 ;
-    int  mobile = 0;
+    long long  mobile = 0;
     int  managepin =0;
     int  atmlimit = 0;
     int  POSlimit = 0;
@@ -427,9 +424,9 @@ int main(void){
         }
         else if(choice3 == 'a'){
             //ask for card and current pin
-            printf("Enter last 6 digit of your card");
+            printf("Enter last 6 digit of your card\n");
             scanf(" %d",&checkcard);
-            printf("Enter 4 DIGIT ATM pin");
+            printf("Enter 4 DIGIT ATM pin\n");
             scanf(" %d",&checkpinn);
             // validate both details
             sqlite3_prepare_v2(db,
@@ -456,8 +453,13 @@ int main(void){
             
             printf("Card+PIN validated successfully.\n");
             //ask for new pin 
-            printf("Enter new ATM pin");
+            printf("Enter new ATM pin\n");
             scanf(" %d",&newpinn);
+            //check if the pin is actually 4 digit or not
+            if (newpinn < 1000 || newpinn > 9999) {
+                printf("PIN must be exactly 4 digits!\n");
+                exit(1);
+            }
             //update this new pin in the place of old pin in database
             sqlite3_stmt *update_stmt;
             sqlite3_prepare_v2(db, "UPDATE users SET pin = ? WHERE card_number = ?;", -1, &update_stmt, NULL);
@@ -500,7 +502,7 @@ else if(choice2 == 'c'){
 
     //for this we will use the random number generator to get a 4 digit number and save it to new card number
         printf("enter a valid mobile number\n");
-        scanf(" %d",&mobile);
+        scanf(" %lld",&mobile);
         //no real otp is send this is just a dummy
         printf("Enter OTP send to the mobile number\n");
         scanf(" %d",&OTP);
