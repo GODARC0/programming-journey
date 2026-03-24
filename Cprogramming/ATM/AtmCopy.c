@@ -125,6 +125,11 @@ int main(void){
     printf("a: HINDI         b: ENGLISH ,\n");
     scanf(" %c",&choice1);
     // printf("आपने हिंदी चुना है");
+    if(choice1 == 'a'){
+        printf("this section will be introduced in future \n");
+        exit(1);
+    }
+    
 
     // promt -> a; manage debit card (will work on already existing database) b; enter atm pin c;set/generate ATM pin (can do random number generator)
     printf("  a: manage debit card  \n  b: enter atm pin \n  c: set/generate ATM pin \n");
