@@ -384,14 +384,31 @@ int main(void){
                 do {
                     printf("Enter amount : \n (* PLEASE ENTER IN MULTIPLE OF 100s):\n");
                     scanf("%d", &cash);
-                    if (cash <= 0 || cash > 99999 || cash % 100 != 0) {
+                    if (cash <= 0 || cash > 999999999999 || cash % 100 != 0) {
                         printf("Invalid amount! \n");
                     }
-                } while (cash <= 0 || cash > 99999 || cash % 100 != 0);
+                } while (cash <= 0 || cash > 999999999999 || cash % 100 != 0);
             }
             //check if the value  of cash is less then the balance in database or not 
-            //if balance>cash process
-            //if balance<cash print insufficient balance and exit the code
+            sqlite3_prepare_v2(db, "SELECT balance FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+            sqlite3_bind_int(stmt, 1, user);
+            if (sqlite3_step(stmt) == SQLITE_ROW) {
+                int balance = sqlite3_column_int(stmt, 0);
+                if (cash > balance) {
+                    printf("Insufficient balance!\n");
+                    printf("Available balance: Rs. %d\n", balance);
+                    sqlite3_finalize(stmt);
+                    sqlite3_close(db);
+                    exit(1);
+                }
+            } else {
+                printf("Could not retrieve balance.\n");
+                sqlite3_finalize(stmt);
+                sqlite3_close(db);
+                exit(1);
+            }
+            sqlite3_finalize(stmt);
+            
             // prompt -> please wait while your transaction is being processed 
             printf("please wait while your transaction is being processed\n");
             sleep(30);
