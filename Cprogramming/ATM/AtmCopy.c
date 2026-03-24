@@ -380,11 +380,11 @@ int main(void){
             if (choice4 == 'a' || choice4 == 'b' || choice4 == 'c') {
                 do {
                     printf("Enter amount : \n (* PLEASE ENTER IN MULTIPLE OF 100s):\n");
-                    scanf("%d", &cash);
-                    if (cash <= 0 || cash > 999999999999 || cash % 100 != 0) {
+                    scanf(" %d", &cash);
+                    if (cash <= 0 || cash > 9999999 || cash % 100 != 0) {
                         printf("Invalid amount! \n");
                     }
-                } while (cash <= 0 || cash > 999999999999 || cash % 100 != 0);
+                } while (cash <= 0 || cash > 9999999 || cash % 100 != 0);
             }
             //check if the value  of cash is less then the balance in database or not 
             sqlite3_prepare_v2(db, "SELECT balance FROM users WHERE card_number = ?;", -1, &stmt, NULL);
