@@ -167,6 +167,11 @@ int main(void){
         printf("A) ENABLE B) DISABLE \n");
         scanf(" %c",&enable_choice);
     }
+    else {
+    printf("Invalid choice!\n");
+    sqlite3_close(db);
+    exit(1);
+    }
 
     // ask for the pin
     printf("Please enter your ATM pin\n");
@@ -204,6 +209,11 @@ int main(void){
     else if (choice6 == 'b') column = "POS";
     else if (choice6 == 'c') column = "E_COMM";
     else if (choice6 == 'd') column = "NFC";
+    else {
+    printf("Invalid choice!\n");
+    sqlite3_close(db);
+    exit(1);
+    }
 
     // first check if row exists for this card in channels table
     sqlite3_prepare_v2(db, "SELECT card_number FROM channels WHERE card_number = ?;", -1, &stmt, NULL);
@@ -495,6 +505,11 @@ int main(void){
         else if(choice3 == 'g'){
             exit(1);
         }
+        else {
+            printf("Invalid choice!\n");
+            sqlite3_close(db);
+            exit(1);
+        }
 }           
 
 else if(choice2 == 'c'){
@@ -529,6 +544,11 @@ else if(choice2 == 'c'){
         }
         sqlite3_finalize(update_stmt);
     
+}
+else {
+    printf("Invalid choice!\n");
+    sqlite3_close(db);
+    exit(1);
 }
     sqlite3_close(db);
     return 0;   
