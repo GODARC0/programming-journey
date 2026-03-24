@@ -395,15 +395,13 @@ int main(void){
         }
 }           
 
-if(choice2 == 'c'){
+else if(choice2 == 'c'){
     printf( "generate ATM pin\n");
-    scanf(" %c",&choice12);
 
     //for this we will use the random number generator to get a 4 digit number and save it to new card number
-    if(choice12 == 'b'){
         printf("enter a valid mobile number\n");
         scanf(" %d",&mobile);
-
+        //no real otp is send this is just a dummy
         printf("Enter OTP send to the mobile number\n");
         scanf(" %d",&OTP);
 
@@ -413,8 +411,22 @@ if(choice2 == 'c'){
         srand(time(0));
         int GenOtp = (rand() % 9000 + 1000);
         printf("This is your new PIN \n");
-        printf(" %d" ,GenOtp);
-    }
+        printf(" %d" ,GenOtp );
+        printf("\n");
+        // update generated pin in database
+        sqlite3_stmt *update_stmt;
+        sqlite3_prepare_v2(db, "UPDATE users SET pin = ? WHERE card_number = ?;", -1, &update_stmt, NULL);
+        char gen_pin_str[10];
+        sprintf(gen_pin_str, "%d", GenOtp);
+        sqlite3_bind_text(update_stmt, 1, gen_pin_str, -1, SQLITE_STATIC);
+        sqlite3_bind_int(update_stmt, 2, user);
+        if (sqlite3_step(update_stmt) != SQLITE_DONE) {
+            printf("Error updating PIN.\n");
+        } else {
+            printf("PIN updated successfully.\n");
+        }
+        sqlite3_finalize(update_stmt);
+    
 }
     sqlite3_close(db);
     return 0;   
