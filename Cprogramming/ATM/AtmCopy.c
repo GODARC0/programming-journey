@@ -142,120 +142,105 @@ int main(void){
         
         //manage channels
         if(choice5 == 'a'){
-            printf("Enable or disable channels:\n");
-            printf("a: ATM TRANSACTIONS\n");
-            printf("b: POS (merchant machine)\n");
-            printf("c: E-COMM (ONLINE/WEB)\n");
-            printf("d: CONTACTLESS (NFC Tap)\n");
-            scanf(" %c", &choice6);
-            if(choice6 == 'a'){
-                printf("ATM TRANSACTIONS\n");
-                printf("A) ENABLE B)DESABLE \n");
-                scanf(" %c",&choice7);
-            }
-            else if(choice6 == 'b'){
-                printf("POS (merchant machine)\n");
-                printf("A) ENABLE B)DESABLE \n");
-                scanf(" %c",&choice8);
-            }
-            else if(choice6 == 'c'){
-                printf("E-COMM (ONLINE/WEB)\n");
-                printf("A) ENABLE B)DESABLE \n");
-                scanf(" %c",&choice9);
-            }
-            else if(choice6 == 'd'){
-                printf("CONTACTLESS (NFC Tap)\n");
-                printf("A) ENABLE B)DESABLE \n");
-                scanf(" %c",&choice10);
-            }
-            //ask for the pin
-            printf("Please enter your ATM pin\n");
-            scanf(" %d",&managepin);
-            //compare with original pin
-           // Validate PIN against database
-            sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
-            sqlite3_bind_int(stmt, 1, user);  // user is the card number
+    printf("Enable or disable channels:\n");
+    printf("a: ATM TRANSACTIONS\n");
+    printf("b: POS (merchant machine)\n");
+    printf("c: E-COMM (ONLINE/WEB)\n");
+    printf("d: CONTACTLESS (NFC Tap)\n");
+    scanf(" %c", &choice6);
 
-            if (sqlite3_step(stmt) == SQLITE_ROW) {
-                const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
-                char entered_pin_str[10];
-                sprintf(entered_pin_str, "%d", managepin);  // Convert int to string
-                
-                if (strcmp(entered_pin_str, stored_pin) != 0) {
-                    printf("Invalid PIN! \n");
-                    sqlite3_finalize(stmt);
-                    sqlite3_close(db);
-                    exit(1);
-                }
-            } else {
-                printf("Card not found in database.\n");
-                sqlite3_finalize(stmt);
-                sqlite3_close(db);
-                exit(1);
-            }
+    char enable_choice;
+    if(choice6 == 'a'){
+        printf("ATM TRANSACTIONS\n");
+        printf("A) ENABLE B) DISABLE \n");
+        scanf(" %c",&enable_choice);
+    }
+    else if(choice6 == 'b'){
+        printf("POS (merchant machine)\n");
+        printf("A) ENABLE B) DISABLE \n");
+        scanf(" %c",&enable_choice);
+    }
+    else if(choice6 == 'c'){
+        printf("E-COMM (ONLINE/WEB)\n");
+        printf("A) ENABLE B) DISABLE \n");
+        scanf(" %c",&enable_choice);
+    }
+    else if(choice6 == 'd'){
+        printf("CONTACTLESS (NFC Tap)\n");
+        printf("A) ENABLE B) DISABLE \n");
+        scanf(" %c",&enable_choice);
+    }
+
+    // ask for the pin
+    printf("Please enter your ATM pin\n");
+    scanf(" %d",&managepin);
+
+    // Validate PIN against database
+    sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, user);
+
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
+        const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
+        char entered_pin_str[10];
+        sprintf(entered_pin_str, "%d", managepin);
+
+        if (strcmp(entered_pin_str, stored_pin) != 0) {
+            printf("Invalid PIN! \n");
             sqlite3_finalize(stmt);
-
-            // If PIN is correct, continue with the success message
-            printf("please wait\n");
-            sleep(10); 
-            printf("your request has been processed successfully\n");
-            exit(0);
+            sqlite3_close(db);
+            exit(1);
         }
-            
-        //set card limits
-        else if (choice5 == 'b'){
-            //a) ATM  b)pos/ecom
-            printf("a: ATM \n b: POS  \n  c: E-COMM \n");
-            scanf(" %c",&choice11);
-            if(choice11 == 'a'){
-                printf("ATM Withdrawal\n");
-                printf("Enter the desired Limit\n");
-                scanf(" %d",&atmlimit);
-            }
-            else if(choice11 == 'b'){
-                printf("POS\n");
-                printf("Enter the desired Limit\n");
-                scanf(" %d",&POSlimit);
-                
-            }
-            else if(choice11 == 'c'){
-                printf("E-COMM\n");
-                printf("Enter the desired Limit\n");
-                scanf(" %d",&COMMlimit);
-                
-            }
-            printf("enter ATM pin\n");
-            scanf(" %d",&LIMpin);
-            //compare with original pin
-            sqlite3_prepare_v2(db, "SELECT pin FROM users WHERE card_number = ?;", -1, &stmt, NULL);
-            sqlite3_bind_int(stmt, 1, user);
-            if (sqlite3_step(stmt) == SQLITE_ROW) {
-                const char *stored_pin = (const char*)sqlite3_column_text(stmt, 0);
-                char entered_pin_str[10];
-                sprintf(entered_pin_str, "%d", LIMpin);  // Convert int to string
+    } else {
+        printf("Card not found in database.\n");
+        sqlite3_finalize(stmt);
+        sqlite3_close(db);
+        exit(1);
+    }
+    sqlite3_finalize(stmt);
 
-                if (strcmp(entered_pin_str, stored_pin) != 0) {
-                    printf("Invalid PIN!\n");
-                    sqlite3_finalize(stmt);
-                    sqlite3_close(db);
-                    return 1;
-                }
-            } else {
-                printf("Card not found in database.\n");
-                sqlite3_finalize(stmt);
-                sqlite3_close(db);
-                return 1;
-            }
-            sqlite3_finalize(stmt);
+    // convert A/B choice to 1/0
+    int status = (enable_choice == 'A' || enable_choice == 'a') ? 1 : 0;
 
-            printf("Please wait\n");
-            sleep(10);
-            //if both pins are equal then this
-            //prompt ->  your request has been processed successfully
-            printf("your request has been processed successfully\n");
-            // remove immediate exit to keep app context, or use menu loop
-             exit(0);
-        }
+    // determine which column to update
+    const char *column = NULL;
+    if      (choice6 == 'a') column = "ATM_transc";
+    else if (choice6 == 'b') column = "POS";
+    else if (choice6 == 'c') column = "E_COMM";
+    else if (choice6 == 'd') column = "NFC";
+
+    // first check if row exists for this card in channels table
+    sqlite3_prepare_v2(db, "SELECT card_number FROM channels WHERE card_number = ?;", -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, user);
+    int row_exists = (sqlite3_step(stmt) == SQLITE_ROW);
+    sqlite3_finalize(stmt);
+
+    // if no row exists, insert a default row first
+    if (!row_exists) {
+        sqlite3_prepare_v2(db, "INSERT INTO channels (card_number) VALUES (?);", -1, &stmt, NULL);
+        sqlite3_bind_int(stmt, 1, user);
+        sqlite3_step(stmt);
+        sqlite3_finalize(stmt);
+    }
+
+    // build and execute the update query dynamically
+    char update_sql[100];
+    sprintf(update_sql, "UPDATE channels SET %s = ? WHERE card_number = ?;", column);
+
+    sqlite3_stmt *update_stmt;
+    sqlite3_prepare_v2(db, update_sql, -1, &update_stmt, NULL);
+    sqlite3_bind_int(update_stmt, 1, status);
+    sqlite3_bind_int(update_stmt, 2, user);
+
+    if (sqlite3_step(update_stmt) != SQLITE_DONE) {
+        printf("Error updating channel.\n");
+    } else {
+        printf("please wait\n");
+        sleep(10);
+        printf("your request has been processed successfully\n");
+    }
+    sqlite3_finalize(update_stmt);
+    exit(0);
+}
             
 
         
