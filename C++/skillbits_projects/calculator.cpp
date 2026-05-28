@@ -1,5 +1,9 @@
 #include <iostream>
 using namespace std;
+//Create a command-line calculator program that can perform
+//arithmetic operations like add sub multiply and divide.
+//  Allow the user to input 
+//two number and desired operation 
 
 int main() {
     //basic arithmetic calculator
