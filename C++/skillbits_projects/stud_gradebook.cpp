@@ -19,22 +19,21 @@ int main(){
     std::cout << "Enter students full name: ";
     
     cin >> fullName ;
-    cout << "hello " << fullName << endl;
-    cout << "Note : if the student had not opted that subject please fill N/A in place of marks";
-    cout << "type ok to proceed";
+    cout << "Note : if the student had not opted that subject please fill N/A in place of marks\n";
+    cout << "type ok to proceed\n";
     cin >>  agree;
 
-    cout << "physics marks";
+    cout << "physics marks :";
     cin >> physics;
-    cout << "chemistry marks";
+    cout << "chemistry marks :";
     cin >> chemistry;
-    cout << "maths marks";
+    cout << "maths marks :";
     cin >> maths ;
-    cout << "biology marks"
+    cout << "biology marks :";
     cin  >> biology;
-    cout << "Computer Science marks";
+    cout << "Computer Science marks :";
     cin >> compSci;
-    cout << "English marks";
+    cout << "English marks :";
     cin  >> english;
 
     // calculate and display average score of students 
