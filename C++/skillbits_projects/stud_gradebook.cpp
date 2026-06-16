@@ -29,47 +29,48 @@ int main(){
     cout << "physics marks :";
     cin >> physics;
     if (physics != "N/A") {
-    total += stoi(physics_input);  // stoi() converts "85" → 85
+    total += stoi(physics);  // stoi() converts "85" → 85
     count++;
     }
 
     cout << "chemistry marks :";
     cin >> chemistry;
     if (chemistry != "N/A") {
-    total += stoi(physics_input);  // stoi() converts "85" → 85
+    total += stoi(chemistry);  // stoi() converts "85" → 85
     count++;
     }
 
     cout << "maths marks :";
     cin >> maths ;
     if (maths != "N/A") {
-    total += stoi(physics_input);  // stoi() converts "85" → 85
+    total += stoi(maths);  // stoi() converts "85" → 85
     count++;
 }
 
     cout << "biology marks :";
     cin  >> biology;
     if (biology != "N/A") {
-    total += stoi(physics_input);  // stoi() converts "85" → 85
+    total += stoi(biology);  // stoi() converts "85" → 85
     count++;
 }
 
     cout << "Computer Science marks :";
     cin >> compSci;
     if (compSci != "N/A") {
-    total += stoi(physics_input);  // stoi() converts "85" → 85
+    total += stoi(compSci);  // stoi() converts "85" → 85
     count++;
 }
 
     cout << "English marks :";
     cin  >> english;
     if (english != "N/A") {
-    total += stoi(physics_input);  // stoi() converts "85" → 85
+    total += stoi(english);  // stoi() converts "85" → 85
     count++;
 }
 
 
-    // calculate and display average score of students 
+    // calculate and display average score of students
+    Avg =  
     //store everything in a clean table like formate with unique id's for easy retrieval
 
     return 0;
