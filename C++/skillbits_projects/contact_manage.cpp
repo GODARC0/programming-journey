@@ -16,6 +16,20 @@ int main(){
         return 1; 
     }
     std::cout << "Database opened/created successfully!" << std::endl;
+    const char* createTableSQL = 
+    "CREATE TABLE IF NOT EXISTS contacts ("
+    "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+    "name TEXT NOT NULL, "
+    "country code TEXT, "
+    "phone TEXT);";
+
+char* errMsg = nullptr;
+result = sqlite3_exec(DB, createTableSQL, nullptr, nullptr, &errMsg);
+if (result != SQLITE_OK) {
+    std::cerr << "Error creating table: " << errMsg << std::endl;
+    sqlite3_free(errMsg);
+    return 1;
+}
     sqlite3_close(DB);
 
 
