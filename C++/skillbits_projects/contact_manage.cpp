@@ -20,17 +20,54 @@ int main(){
     "CREATE TABLE IF NOT EXISTS contacts ("
     "id INTEGER PRIMARY KEY AUTOINCREMENT, "
     "name TEXT NOT NULL, "
-    "country code TEXT, "
+    "country_code TEXT, "
     "phone TEXT);";
 
-char* errMsg = nullptr;
+
+while(input != 5){
+    char* errMsg = nullptr;
 result = sqlite3_exec(DB, createTableSQL, nullptr, nullptr, &errMsg);
 if (result != SQLITE_OK) {
     std::cerr << "Error creating table: " << errMsg << std::endl;
     sqlite3_free(errMsg);
     return 1;
 }
-    sqlite3_close(DB);
+
+cout<<"\n=== Contact Manager ===\n"
+         << "1. Add contact\n"
+         << "2. View contacts\n"
+         << "3. Update contact\n"
+         << "4. Delete contact\n"
+         << "5. Exit\n"
+         << "Choose an option: ";
+    
+    
+cin>> input >> "\n";
+
+int input = 1;
+
+switch (light){
+    case 1 :
+        cout<<"Add contact";
+        break;
+
+    case 2 :
+        cout <<"View contacts";
+        break;
+
+    case 3:
+        cout << "Update contact";
+        break;
+
+    case 4 :
+        cout << "Delete contacts";
+        break;
+}
+         sqlite3_close(DB);
+
+
+
+}
 
 
     return 0;
