@@ -2,9 +2,23 @@
 // should be able to add, update, delete and view contact information.
 #include <iostream>
 #include <stdio.h>
+#include <string>
 #include "sqlite3.h"
 using namespace std;
 
+void addContact(sqlite3* DB){
+    string name;
+    string country_code;
+    string phone;
+    
+    
+    cout<<"name"<<"\n";
+    cin>>name;
+    cout<<"country code"<<"\n";
+    cin>>country_code;
+    cout<< "phone number"<<"\n";
+    cin >>phone;    
+}
 int main(){
     //for storing contacts i had 2 options one with stings of json code and other was sqlite
     //im going to use sqlite because im more familiar with that 
@@ -23,15 +37,17 @@ int main(){
     "country_code TEXT, "
     "phone TEXT);";
 
-
-while(input != 5){
-    char* errMsg = nullptr;
+int input = 1;
+char* errMsg = nullptr;
 result = sqlite3_exec(DB, createTableSQL, nullptr, nullptr, &errMsg);
 if (result != SQLITE_OK) {
     std::cerr << "Error creating table: " << errMsg << std::endl;
     sqlite3_free(errMsg);
     return 1;
 }
+
+while(input != 5){
+    
 
 cout<<"\n=== Contact Manager ===\n"
          << "1. Add contact\n"
@@ -42,11 +58,11 @@ cout<<"\n=== Contact Manager ===\n"
          << "Choose an option: ";
     
     
-cin>> input >> "\n";
+cin>> input ;
 
-int input = 1;
 
-switch (light){
+
+switch (input){
     case 1 :
         cout<<"Add contact";
         break;
@@ -63,12 +79,12 @@ switch (light){
         cout << "Delete contacts";
         break;
 }
-         sqlite3_close(DB);
+         
 
 
 
 }
-
+sqlite3_close(DB);
 
     return 0;
 }
